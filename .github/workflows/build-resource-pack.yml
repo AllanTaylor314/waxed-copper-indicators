@@ -38,11 +38,11 @@ jobs:
         run: |
           staging="${RUNNER_TEMP}/waxed-copper-indicators"
           mkdir -p dist
-          (cd "$staging" && zip -9 -r "$GITHUB_WORKSPACE/dist/waxed-copper-indicators.zip" .)
+          (cd "$staging" && zip -9 -r "$GITHUB_WORKSPACE/dist/Waxed Copper Indicators.zip" .)
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7
         with:
           name: Waxed Copper Indicators.zip
-          path: dist/waxed-copper-indicators.zip
+          path: dist/Waxed Copper Indicators.zip
           archive: false
