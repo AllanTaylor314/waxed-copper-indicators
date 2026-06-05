@@ -1,0 +1,41 @@
+{
+  "pack": {
+    "description": [
+      {
+        "text": "",
+        "extra": [
+          { "text": "H", "color": "#FBDE29" },
+          { "text": "o", "color": "#F9D427" },
+          { "text": "n", "color": "#F7CA24" },
+          { "text": "e", "color": "#F5C022" },
+          { "text": "y", "color": "#F3B61F" },
+          { "text": "c", "color": "#F1AC1D" },
+          { "text": "o", "color": "#EFA21A" },
+          { "text": "m", "color": "#ED9818" },
+          { "text": "b", "color": "#EB8E15" },
+          { "text": " " },
+          { "text": "o", "color": "#07E1D8" },
+          { "text": "n", "color": "#2ADDD4" },
+          { "text": " " },
+          { "text": "w", "color": "#71D4CC" },
+          { "text": "a", "color": "#7DCEC1" },
+          { "text": "x", "color": "#89C7B7" },
+          { "text": "e", "color": "#95C1AC" },
+          { "text": "d", "color": "#A1BAA1" },
+          { "text": " " },
+          { "text": "i", "color": "#B2AB8A" },
+          { "text": "t", "color": "#BAA37F" },
+          { "text": "e", "color": "#C09C77" },
+          { "text": "m", "color": "#C6946F" },
+          { "text": "s", "color": "#CC8D67" },
+          { "text": "\n" },
+          { "text": "By AllanT314", "color": "#4498DB", "italic": true }
+        ]
+      }
+    ],
+    "pack_format": 46,
+    "supported_formats": { "min_inclusive": 46, "max_inclusive": 84 },
+    "min_format": [46, 0],
+    "max_format": [84, 0]
+  }
+}

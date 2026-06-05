@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": { "layer0": "minecraft:item/honeycomb" },
+  "gui_light": "front",
+  "display": { "gui": { "translation": [5, 4, 10], "scale": [0.5, 0.5, 0.5] } }
+}
