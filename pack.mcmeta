@@ -37,5 +37,14 @@
     "supported_formats": { "min_inclusive": 46, "max_inclusive": 84 },
     "min_format": [46, 0],
     "max_format": [84, 0]
+  },
+  "overlays": {
+    "entries": [
+      {
+        "directory": "overlay_golem_textures",
+        "min_format": [69, 0],
+        "max_format": 75
+      }
+    ]
   }
 }

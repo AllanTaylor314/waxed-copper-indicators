@@ -5,7 +5,6 @@ import json
 from pathlib import Path
 
 PACK_ROOT = Path(__file__).parent
-ITEMS_DIR = PACK_ROOT / "assets" / "minecraft" / "items"
 BADGE_FLAT = {
     "type": "minecraft:model",
     "model": "waxed_copper_indicator:item/honeycomb_badge",
@@ -14,6 +13,13 @@ BADGE_FLAT = {
 BADGE_ISOMETRIC = {
     "type": "minecraft:model",
     "model": "waxed_copper_indicator:item/honeycomb_badge_isometric",
+}
+
+GOLEM_TRANSFORMATION = {
+    "translation": [0.5, 1.5, 0.5],
+    "left_rotation": [0, 0, 0, 1],
+    "right_rotation": [0, 0, 0, 1],
+    "scale": [1, -1, -1],
 }
 
 # Vanilla base item models for waxed blocks (waxed items reuse unwaxed models).
@@ -99,12 +105,40 @@ CHEST_MODELS = {
     },
 }
 
-GOLEM_TEXTURES = {
+# 1.21.9–1.21.11: {state}_copper_golem.png texture names, no pose transform in vanilla.
+GOLEM_TEXTURES_1_21 = {
+    "waxed_copper_golem_statue": "minecraft:textures/entity/copper_golem/copper_golem.png",
+    "waxed_exposed_copper_golem_statue": "minecraft:textures/entity/copper_golem/exposed_copper_golem.png",
+    "waxed_weathered_copper_golem_statue": "minecraft:textures/entity/copper_golem/weathered_copper_golem.png",
+    "waxed_oxidized_copper_golem_statue": "minecraft:textures/entity/copper_golem/oxidized_copper_golem.png",
+}
+
+# 26.1.x: copper_golem_{state}.png texture names, pose transform on the select model.
+GOLEM_TEXTURES_26_1 = {
     "waxed_copper_golem_statue": "minecraft:textures/entity/copper_golem/copper_golem.png",
     "waxed_exposed_copper_golem_statue": "minecraft:textures/entity/copper_golem/copper_golem_exposed.png",
     "waxed_weathered_copper_golem_statue": "minecraft:textures/entity/copper_golem/copper_golem_weathered.png",
     "waxed_oxidized_copper_golem_statue": "minecraft:textures/entity/copper_golem/copper_golem_oxidized.png",
 }
+
+# Base targets 26.1+ asset names so future versions keep working without overlay updates.
+# The 1.21.9–1.21.11 release window used different golem texture file names (overlay below).
+VERSION_BANDS = [
+    {
+        "label": "base (1.21.4+)",
+        "items_dir": PACK_ROOT / "assets" / "minecraft" / "items",
+        "item_ids": sorted(SIMPLE_MODELS),
+        "golem_textures": GOLEM_TEXTURES_26_1,
+        "golem_transformation": True,
+    },
+    {
+        "label": "overlay_golem_textures (formats 69–75)",
+        "items_dir": PACK_ROOT / "overlay_golem_textures" / "assets" / "minecraft" / "items",
+        "item_ids": sorted(GOLEM_TEXTURES_1_21),
+        "golem_textures": GOLEM_TEXTURES_1_21,
+        "golem_transformation": False,
+    },
+]
 
 
 def plain_model(model_id: str) -> dict:
@@ -135,9 +169,9 @@ def golem_pose_model(texture: str, pose: str) -> dict:
     }
 
 
-def golem_model(item_id: str) -> dict:
-    texture = GOLEM_TEXTURES[item_id]
-    return {
+def golem_model(item_id: str, textures: dict[str, str], *, transformation: bool) -> dict:
+    texture = textures[item_id]
+    model = {
         "type": "minecraft:select",
         "property": "minecraft:block_state",
         "block_state_property": "copper_golem_pose",
@@ -147,20 +181,21 @@ def golem_model(item_id: str) -> dict:
             {"when": ["star"], "model": golem_pose_model(texture, "star")},
         ],
         "fallback": golem_pose_model(texture, "standing"),
-        "transformation": {
-            "translation": [0.5, 1.5, 0.5],
-            "left_rotation": [0, 0, 0, 1],
-            "right_rotation": [0, 0, 0, 1],
-            "scale": [1, -1, -1],
-        },
     }
+    if transformation:
+        model["transformation"] = GOLEM_TRANSFORMATION
+    return model
 
 
-def base_model_for(item_id: str) -> dict:
+def base_model_for(item_id: str, band: dict) -> dict:
     if item_id in CHEST_MODELS:
         return chest_model(item_id)
-    if item_id in GOLEM_TEXTURES:
-        return golem_model(item_id)
+    if item_id in band["golem_textures"]:
+        return golem_model(
+            item_id,
+            band["golem_textures"],
+            transformation=band["golem_transformation"],
+        )
     model_id = SIMPLE_MODELS[item_id]
     if model_id is None:
         raise ValueError(f"No model mapping for {item_id}")
@@ -202,12 +237,26 @@ def with_gui_badge(base: dict) -> dict:
     }
 
 
+def write_item_definition(path: Path, item_id: str, band: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = with_gui_badge(base_model_for(item_id, band))
+    path.write_text(json.dumps(payload, indent=None, separators=(",", ":")) + "\n", encoding="utf-8")
+
+
+def generate_band(band: dict) -> int:
+    count = 0
+    for item_id in band["item_ids"]:
+        write_item_definition(band["items_dir"] / f"{item_id}.json", item_id, band)
+        count += 1
+    print(f"Generated {count} item definitions for {band['label']} in {band['items_dir']}")
+    return count
+
+
 def main() -> None:
-    ITEMS_DIR.mkdir(parents=True, exist_ok=True)
-    for item_id in sorted(SIMPLE_MODELS):
-        output = ITEMS_DIR / f"{item_id}.json"
-        output.write_text(json.dumps(with_gui_badge(base_model_for(item_id)), indent=None, separators=(",", ":")) + "\n", encoding="utf-8")
-    print(f"Generated {len(SIMPLE_MODELS)} item definitions in {ITEMS_DIR}")
+    total = 0
+    for band in VERSION_BANDS:
+        total += generate_band(band)
+    print(f"Done — {total} item definitions across {len(VERSION_BANDS)} version bands")
 
 
 if __name__ == "__main__":
