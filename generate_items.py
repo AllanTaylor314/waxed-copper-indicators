@@ -240,7 +240,7 @@ def with_gui_badge(base: dict) -> dict:
 def write_item_definition(path: Path, item_id: str, band: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = with_gui_badge(base_model_for(item_id, band))
-    path.write_text(json.dumps(payload, indent=None, separators=(",", ":")) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
 def generate_band(band: dict) -> int:
