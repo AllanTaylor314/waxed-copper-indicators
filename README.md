@@ -1,4 +1,5 @@
-> [!IMPORTANT] This repo contains the build script, not the final pack - [Download the pack on Modrinth](https://modrinth.com/project/vIxsi1KE/versions)
+> [!IMPORTANT]
+> This repo contains the build script, not the final pack - [Download the pack on Modrinth](https://modrinth.com/project/vIxsi1KE/versions)
 
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/vIxsi1KE)](https://modrinth.com/project/vIxsi1KE/versions)
 [![Modrinth Game Versions](https://img.shields.io/modrinth/game-versions/vIxsi1KE)](https://modrinth.com/project/vIxsi1KE/versions)
@@ -27,6 +28,6 @@ You can report issues or suggest compatibility tweaks here on [GitHub](https://g
 ---
 ### License
 
-**Waxed Copper Indicators** (c) 2026 by [AllanTaylor314](https://github.com/AllanTaylor314) is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+**Waxed Copper Indicators** © 2026 by [AllanTaylor314](https://github.com/AllanTaylor314) is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 
 If you include this pack or parts of it in your own work (such as a modpack or custom resource pack), please include a link back to Waxed Copper Indicators on [GitHub](https://github.com/AllanTaylor314/waxed-copper-indicators) or [Modrinth](https://modrinth.com/project/vIxsi1KE)
