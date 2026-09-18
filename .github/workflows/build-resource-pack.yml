@@ -26,9 +26,9 @@ jobs:
         run: |
           staging="${RUNNER_TEMP}/waxed-copper-indicators"
           mkdir -p "$staging"
-          cp pack.mcmeta pack.png "$staging/"
+          cp pack.mcmeta pack.png CREDITS.txt "$staging/"
           cp -r assets "$staging/"
-          cp -r overlay_golem_textures "$staging/"
+          cp -r overlay_* "$staging/"
           find "$staging" -type f \( -iname 'readme.txt' -o -iname 'readme.md' \) -delete
 
       - name: Minify JSON

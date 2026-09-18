@@ -1,0 +1,4 @@
+Waxed Copper Indicators (c) 2026 by AllanTaylor314 (https://github.com/AllanTaylor314) is licensed under CC BY-SA 4.0
+
+Distributed exclusively on Modrinth at https://modrinth.com/project/vIxsi1KE
+Source and Issues at https://github.com/AllanTaylor314/waxed-copper-indicators
